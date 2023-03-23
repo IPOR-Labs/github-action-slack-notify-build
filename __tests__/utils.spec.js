@@ -1,6 +1,12 @@
 import { formatChannelName, buildSlackAttachments } from '../src/utils';
 import { GITHUB_PUSH_EVENT, GITHUB_PR_EVENT } from '../fixtures';
+
+process.env.GITHUB_RUN_ID = '1';
+process.env.GITHUB_RUN_ATTEMPT = '1';
+process.env.GITHUB_REPOSITORY = 'voxmedia/github-action-slack-notify-build';
+
 const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
+const attemptNum = parseInt(process.env.GITHUB_RUN_ATTEMPT, 10);
 
 describe('Utils', () => {
   describe('formatChannelName', () => {
@@ -36,7 +42,7 @@ describe('Utils', () => {
 
         expect(attachments[0].fields.find(a => a.title === 'Workflow')).toEqual({
           title: 'Workflow',
-          value: `<https://github.com/voxmedia/github-action-slack-notify-build/actions/runs/${runId} | CI>`,
+          value: `<https://github.com/voxmedia/github-action-slack-notify-build/actions/runs/${runId}/attempts/${attemptNum} | CI>`,
           short: true,
         });
       });
@@ -78,7 +84,7 @@ describe('Utils', () => {
 
         expect(attachments[0].fields.find(a => a.title === 'Workflow')).toEqual({
           title: 'Workflow',
-          value: `<https://github.com/voxmedia/github-action-slack-notify-build/actions/runs/${runId} | CI>`,
+          value: `<https://github.com/voxmedia/github-action-slack-notify-build/actions/runs/${runId}/attempts/${attemptNum} | CI>`,
           short: true,
         });
       });

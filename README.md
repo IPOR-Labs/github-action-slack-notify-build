@@ -115,6 +115,22 @@ The ID of a previous Slack message to update instead of posting a new message. T
 message_id: ${{ steps.<your_first_slack_step_id>.outputs.message_id }}
 ```
 
+### `src_actor`
+
+Optional actor from the source workflow that triggered this build
+
+### `src_repository`
+
+Optional repository from the source workflow that triggered this build
+
+### `src_workflow`
+
+Optional workflow name from the source workflow that triggered this build
+
+### `src_run_url`
+
+Optional workflow run URL from the source workflow that triggered this build'
+
 ## Outputs
 
 ### `message_id`

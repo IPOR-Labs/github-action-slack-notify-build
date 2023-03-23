@@ -20,6 +20,23 @@ inputs:
   message_id:
     description: 'The ID of the existing Slack message to update.'
     required: false
+  src_actor:
+    description: 'Optional actor from the source workflow that triggered this build'
+    required: false
+    default: ''
+  src_repository:
+    description: 'Optional repository from the source workflow that triggered this build'
+    required: false
+    default: ''
+  src_workflow:
+    description: 'Optional workflow name from the source workflow that triggered this build'
+    required: false
+    default: ''
+  src_run_url:
+    description: 'Optional workflow run URL from the source workflow that triggered this build'
+    required: false
+    default: ''
+
 outputs:
   message_id:
     description: 'The unique timestamp identifier of the Slack message sent'

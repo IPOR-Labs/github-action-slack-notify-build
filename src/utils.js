@@ -1,6 +1,19 @@
 const { context } = require('@actions/github');
 
-function buildSlackAttachments({ status, color, github }) {
+function formatSourceWorkflow(srcRunUrl, srcRepository, srcWorkflow) {
+  let result = '';
+
+  if (srcRunUrl) result += `<${srcRunUrl} | `;
+  if (srcRepository) result += srcRepository;
+  if (srcWorkflow) {
+    result += srcRepository ? `: ${srcWorkflow}` : srcWorkflow;
+  }
+  if (srcRunUrl) result += `>`;
+
+  return result;
+}
+
+function buildSlackAttachments({ status, color, github, srcActor, srcRepository, srcWorkflow, srcRunUrl }) {
   const { payload, ref, workflow, eventName, actor } = github.context;
   const { owner, repo } = context.repo;
   const event = eventName;
@@ -8,6 +21,8 @@ function buildSlackAttachments({ status, color, github }) {
 
   const sha = event === 'pull_request' ? payload.pull_request.head.sha : github.context.sha;
   const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
+  const runAttempt = parseInt(process.env.GITHUB_RUN_ATTEMPT, 10);
+  const formattedSrcWorkflow = formatSourceWorkflow(srcRunUrl, srcRepository, srcWorkflow);
 
   const referenceLink =
     event === 'pull_request'
@@ -33,7 +48,7 @@ function buildSlackAttachments({ status, color, github }) {
         },
         {
           title: 'Workflow',
-          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId} | ${workflow}>`,
+          value: `<https://github.com/${owner}/${repo}/actions/runs/${runId}/attempts/${runAttempt} | ${workflow}>`,
           short: true,
         },
         {
@@ -50,6 +65,16 @@ function buildSlackAttachments({ status, color, github }) {
         {
           title: 'By',
           value: `<https://github.com/${actor} | ${actor}>`,
+          short: true,
+        },
+        formattedSrcWorkflow && {
+          title: 'Source workflow',
+          value: formattedSrcWorkflow,
+          short: true,
+        },
+        srcActor && {
+          title: 'Source by',
+          value: `<https://github.com/${srcActor} | ${srcActor}>`,
           short: true,
         },
       ],
