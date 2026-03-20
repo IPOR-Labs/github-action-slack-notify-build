@@ -21,25 +21,25 @@ inputs:
     description: "The ID of the existing Slack message to update."
     required: false
   src_actor:
-    description: 'Optional actor from the source workflow that triggered this build'
+    description: "Optional actor from the source workflow that triggered this build"
     required: false
-    default: ''
+    default: ""
   src_repository:
-    description: 'Optional repository from the source workflow that triggered this build'
+    description: "Optional repository from the source workflow that triggered this build"
     required: false
-    default: ''
+    default: ""
   src_workflow:
-    description: 'Optional workflow name from the source workflow that triggered this build'
+    description: "Optional workflow name from the source workflow that triggered this build"
     required: false
-    default: ''
+    default: ""
   src_run_url:
-    description: 'Optional workflow run URL from the source workflow that triggered this build'
+    description: "Optional workflow run URL from the source workflow that triggered this build"
     required: false
-    default: ''
+    default: ""
 
 outputs:
   message_id:
     description: "The unique timestamp identifier of the Slack message sent"
 runs:
-  using: "node20"
+  using: "node24"
   main: "dist/index.js"

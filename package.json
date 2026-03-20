@@ -9,17 +9,17 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^6.0.0",
-    "@slack/web-api": "^7.0.2"
+    "@actions/core": "^2.0.3",
+    "@actions/github": "^8.0.1",
+    "@slack/web-api": "^7.15.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/preset-env": "^7.6.3",
-    "@vercel/ncc": "^0.38.1",
-    "husky": "^9.0.11",
-    "lint-staged": "^15.2.2",
-    "prettier": "^3.2.5"
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@vercel/ncc": "^0.38.4",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1"
   },
   "lint-staged": {
     "**/*.{ts,json,md,yml,js,css,html}": [
