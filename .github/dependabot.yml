@@ -8,9 +8,21 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Only propose versions published at least 7 days ago (matches pnpm's minimumReleaseAge)
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns: ["*"]
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+    # Only propose versions published at least 7 days ago (matches pnpm's minimumReleaseAge)
+    cooldown:
+      default-days: 7
+    groups:
+      npm-minor-and-patch:
+        update-types: ["minor", "patch"]

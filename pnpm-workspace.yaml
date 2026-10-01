@@ -1,0 +1,12 @@
+# Supply-chain protection, see https://pnpm.io/supply-chain-security
+
+# Refuse to install any package version published less than 7 days ago
+# (value in minutes). Dependabot uses the same cooldown.
+minimumReleaseAge: 10080
+
+# Transitive dependencies must come from the registry, never from git or tarball URLs.
+blockExoticSubdeps: true
+
+# Refuse a version whose trust level (provenance / trusted publishing) is
+# lower than the previously published one.
+trustPolicy: no-downgrade

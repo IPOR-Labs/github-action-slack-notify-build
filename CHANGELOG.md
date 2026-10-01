@@ -1,3 +1,14 @@
+# Unreleased
+
+- **BREAKING**: Runs on Node 24 (`runs.using: node24`); requires a runner with Node 24 support
+- Converts the code base to ES modules and upgrades `@actions/core` 3, `@actions/github` 9 and `@slack/web-api` 8
+- Fails fast with a clear error when `SLACK_BOT_TOKEN` is missing
+- Replaces Babel + Jest with the Node.js built-in test runner; adds ESLint (flat config)
+- Adds a CI workflow (lint, test, build, `dist/` freshness check) with actions pinned to commit SHAs
+- Adds a Security workflow: CodeQL, dependency review on PRs, zizmor and actionlint for workflow files; Dependabot auto-approve is limited to patch/minor updates
+- Masks `SLACK_BOT_TOKEN` in logs; `dist/` is no longer minified so its diffs can be reviewed
+- Groups Dependabot updates; switches the package manager to pnpm (single `pnpm-lock.yaml`); pnpm and Dependabot only accept package versions published at least 7 days ago
+
 # 2.0.0
 
 - Upgrades action to Node 20

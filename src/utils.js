@@ -1,7 +1,7 @@
-const { context } = require('@actions/github');
+import { context } from "@actions/github";
 
 function formatSourceWorkflow(srcRunUrl, srcRepository, srcWorkflow) {
-  let result = '';
+  let result = "";
 
   if (srcRunUrl) result += `<${srcRunUrl} | `;
   if (srcRepository) result += srcRepository;
@@ -13,26 +13,44 @@ function formatSourceWorkflow(srcRunUrl, srcRepository, srcWorkflow) {
   return result;
 }
 
-function buildSlackAttachments({ status, color, github, srcActor, srcRepository, srcWorkflow, srcRunUrl }) {
+export function buildSlackAttachments({
+  status,
+  color,
+  github,
+  srcActor,
+  srcRepository,
+  srcWorkflow,
+  srcRunUrl,
+}) {
   const { payload, ref, workflow, eventName, actor } = github.context;
   const { owner, repo } = context.repo;
   const event = eventName;
-  const branch = event === 'pull_request' ? payload.pull_request.head.ref : ref.replace('refs/heads/', '');
+  const branch =
+    event === "pull_request"
+      ? payload.pull_request.head.ref
+      : ref.replace("refs/heads/", "");
 
-  const sha = event === 'pull_request' ? payload.pull_request.head.sha : github.context.sha;
+  const sha =
+    event === "pull_request"
+      ? payload.pull_request.head.sha
+      : github.context.sha;
   const runId = parseInt(process.env.GITHUB_RUN_ID, 10);
   const runAttempt = parseInt(process.env.GITHUB_RUN_ATTEMPT, 10);
-  const formattedSrcWorkflow = formatSourceWorkflow(srcRunUrl, srcRepository, srcWorkflow);
+  const formattedSrcWorkflow = formatSourceWorkflow(
+    srcRunUrl,
+    srcRepository,
+    srcWorkflow,
+  );
 
   const referenceLink =
-    event === 'pull_request'
+    event === "pull_request"
       ? {
-          title: 'Pull Request',
+          title: "Pull Request",
           value: `<${payload.pull_request.html_url} | ${payload.pull_request.title}>`,
           short: true,
         }
       : {
-          title: 'Branch',
+          title: "Branch",
           value: `<https://github.com/${owner}/${repo}/commit/${sha} | ${branch}>`,
           short: true,
         };
@@ -42,53 +60,49 @@ function buildSlackAttachments({ status, color, github, srcActor, srcRepository,
       color,
       fields: [
         {
-          title: 'Repo',
+          title: "Repo",
           value: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
           short: true,
         },
         {
-          title: 'Workflow',
+          title: "Workflow",
           value: `<https://github.com/${owner}/${repo}/actions/runs/${runId}/attempts/${runAttempt} | ${workflow}>`,
           short: true,
         },
         {
-          title: 'Status',
+          title: "Status",
           value: status,
           short: true,
         },
         referenceLink,
         {
-          title: 'Event',
+          title: "Event",
           value: event,
           short: true,
         },
         {
-          title: 'By',
+          title: "By",
           value: `<https://github.com/${actor} | ${actor}>`,
           short: true,
         },
         formattedSrcWorkflow && {
-          title: 'Source workflow',
+          title: "Source workflow",
           value: formattedSrcWorkflow,
           short: true,
         },
         srcActor && {
-          title: 'Source by',
+          title: "Source by",
           value: `<https://github.com/${srcActor} | ${srcActor}>`,
           short: true,
         },
       ],
-      footer_icon: 'https://github.githubassets.com/favicon.ico',
+      footer_icon: "https://github.githubassets.com/favicon.ico",
       footer: `<https://github.com/${owner}/${repo} | ${owner}/${repo}>`,
       ts: Math.floor(Date.now() / 1000),
     },
   ];
 }
 
-module.exports.buildSlackAttachments = buildSlackAttachments;
-
-function formatChannelName(channel) {
-  return channel.replace(/[#@]/g, '');
+export function formatChannelName(channel) {
+  return channel.replace(/[#@]/g, "");
 }
-
-module.exports.formatChannelName = formatChannelName;

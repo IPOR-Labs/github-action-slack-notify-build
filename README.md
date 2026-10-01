@@ -129,7 +129,7 @@ Optional workflow name from the source workflow that triggered this build
 
 ### `src_run_url`
 
-Optional workflow run URL from the source workflow that triggered this build'
+Optional workflow run URL from the source workflow that triggered this build
 
 ## Outputs
 
@@ -157,6 +157,23 @@ In order to use your Slack App with this GitHub Action, be sure to enable the fo
 | `chat:write`    | Yes                                        |
 | `channels:read` | If using `channel` instead of `channel_id` |
 | `groups:read`   | If using `channel` instead of `channel_id` |
+
+## Development
+
+Requires Node.js 24 (see `.nvmrc`, the same version the action runs on via `runs.using: node24`) and pnpm (see `packageManager` in `package.json`).
+
+```sh
+pnpm install --frozen-lockfile   # install dependencies
+pnpm test                        # run tests (Node.js built-in test runner)
+pnpm run lint                    # ESLint + Prettier check
+pnpm run build                   # bundle the action into dist/ with @vercel/ncc
+```
+
+Dependencies must be at least 7 days old: pnpm enforces this via `minimumReleaseAge` in `pnpm-workspace.yaml`, and Dependabot via `cooldown` in `.github/dependabot.yml`. If `pnpm install` rejects a version, pick an older one rather than adding an exclusion.
+
+If your globally installed pnpm has a stricter `minimumReleaseAge` than 7 days, its self-install of the version pinned in `packageManager` fails with `ERR_PNPM_NO_MATURE_MATCHING_VERSION` for `@pnpm/exe`. That self-install only reads the global config, so exclude pnpm's own packages there: `pnpm config set --global minimum-release-age-exclude '@pnpm/*'`.
+
+The `dist/` directory is committed and is what GitHub runs. After changing any source file, run `pnpm run build` and commit the result; CI fails if `dist/` is out of date.
 
 ## License
 
