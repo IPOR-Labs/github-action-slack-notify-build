@@ -10,3 +10,6 @@ blockExoticSubdeps: true
 # Refuse a version whose trust level (provenance / trusted publishing) is
 # lower than the previously published one.
 trustPolicy: no-downgrade
+
+# Fail pnpm install early when the Node version does not satisfy engines.node
+engineStrict: true
