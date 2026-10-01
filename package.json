@@ -14,7 +14,7 @@
     "@slack/web-api": "^7.15.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.29.0",
+    "@babel/core": "^7.29.7",
     "@babel/preset-env": "^7.29.2",
     "@vercel/ncc": "^0.38.4",
     "husky": "^9.1.7",
